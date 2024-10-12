@@ -25,22 +25,20 @@ output
 #include <stack>
 using namespace std;
 
-vector<int> nge(int size, vector<int> arr){
-
+vector<int> nge(vector<int> a){
     stack<int> st;
-    vector<int> ans(size);
+    vector<int> ans(a.size());
 
-    for(int i=0;i<arr.size();i++){
-        while(!st.empty() && arr[st.top()]<arr[i]){
-            ans[st.top()] = arr[i];
+    for(int i=0;i<a.size();i++){
+        while(!st.empty() && a[st.top()]<a[i]){
+            ans[st.top()] = a[i];
             st.pop();
         }
         st.push(i);
-        // if(i==size-1) ans.push_back(-1); 
     }
 
     while(!st.empty()){
-        ans[st.top()]=-1;
+        ans[st.top()] = -1;
         st.pop();
     }
 
@@ -48,22 +46,24 @@ vector<int> nge(int size, vector<int> arr){
 }
 
 int main(){
-    int size;
+    cout<<"length of arr = ";
+    int n;
+    cin>>n;
+
+    cout<<"array elements : ";
     vector<int> arr;
-    cin>>size;
-    cout<<"give the arr: ";
-    for(int i=0;i<size;i++){
+    for(int i=0;i<n;i++){
         int a;
         cin>>a;
         arr.push_back(a);
     }
 
-    vector<int> ans;
-    ans = nge(size, arr);
+    vector<int> ans = nge(arr);
 
-    cout<<"next greater element vector: ";
+    cout<<"ans vec : ";
     for(int i=0;i<ans.size();i++){
         cout<<ans[i]<<" ";
     }
+
     return 0;
 }
