@@ -2,40 +2,40 @@
 #include <iostream>
 using namespace std;
 
-void heapify(int arr[], int &size){
-    int i=0;
+void heapify(int arr[], int &size, int i){
 
-    while(2*i + 1 < size){ // iske aage leaf nodes aa jate hai
+    // if(2*i + 1 < size) return;
 
-        int leftchild = 2*i + 1;
-        int rightchild = 2*i + 2;
-        int parent = i;
+    int smallest = i;
+    int leftchild = 2*i + 1;
+    int rightchild = 2*i + 2;
 
-        if(rightchild < size){ // right child present
-
-            if(arr[parent] < arr[leftchild] || arr[parent] < arr[rightchild]){ // parent smaller than its child nodes
-
-                if(arr[leftchild] > arr[rightchild]){
-                    swap(arr[parent], arr[leftchild]);
-                } else {
-                    swap(arr[parent], arr[rightchild]);
-                }
-            }
-        }
-
-        else if(arr[parent] < arr[leftchild]){
-            swap(arr[parent], arr[leftchild]);
-        }
-
-        i++;
-
+    // left child exist & larger than root
+    if(leftchild < size && arr[leftchild] < arr[smallest]){
+        smallest = leftchild;
     }
 
-    for(int i=0;i<size;i++){
-        cout<<arr[i]<<" ";
-    }cout<<endl;
+    // if right is present & larger than parent;
+    if(rightchild < size && arr[rightchild] < arr[smallest]){
+        smallest = rightchild;
+    }
+
+    //if root not largest, swap
+    if(smallest != i){
+        swap(arr[i], arr[smallest]);
+        heapify(arr,size, smallest);
+    }
+
+
 
     return;
+}
+
+void buildMinHeap(int arr[], int size) {
+    // Start from the last non-leaf node and heapify each node
+    for (int i = size / 2 - 1; i >= 0; i--) {
+        heapify(arr, size, i);
+    }
 }
 
 int removeRoot(int arr[], int &size){
@@ -45,7 +45,8 @@ int removeRoot(int arr[], int &size){
     arr[size-1] = 0;
     size--;
 
-    heapify(arr, size);
+    // heapify(arr, size, 0);
+    buildMinHeap(arr, size);
 
     return root;
 }
@@ -55,12 +56,14 @@ int main(){
     int sorted[20] = {};
     int size = 7;
 
-    heapify(arr, size);
+    // cout<<"smallest idx "<<(size-2)/2<<endl;
+    // heapify(arr, size,( size-2 )/ 2);
+    buildMinHeap(arr, size);
 
     int i=0;
     int j=0;
     while(i<size){
-        cout<<"size = "<<size<<endl;
+        // cout<<"size = "<<size<<endl;
         int root = removeRoot(arr, size);
         sorted[j] = root;
         j++;
