@@ -29,7 +29,7 @@ void heapify(int arr[], int &size, int i){
 
 void buildMinHeap(int arr[], int &size){
     for(int i=size/2 - 1; i>=0; i--){
-        heapify(arr, size, 0);
+        heapify(arr, size, i);
     }
 
     return;
@@ -40,7 +40,7 @@ int deleteRoot(int arr[], int &size){
     swap(arr[0], arr[size-1]);
     size--;
 
-    buildMinHeap(arr,size);
+    heapify(arr,size,0);
 
     return root;
 }
